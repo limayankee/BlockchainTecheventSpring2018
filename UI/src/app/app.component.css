@@ -1,0 +1,12 @@
+
+.container {
+  padding: 80px 15px 0;
+}
+
+.table {
+  margin-top: 50px;
+}
+
+.table .thead-dark th {
+  background-color: #343a40;
+}
