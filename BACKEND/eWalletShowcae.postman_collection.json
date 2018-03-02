@@ -1,0 +1,103 @@
+{
+	"info": {
+		"name": "eWalletShowcae",
+		"_postman_id": "af0632b8-eddd-4fa9-092a-a1705367f68b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "chain",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:7050/chain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7050",
+					"path": [
+						"chain"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "deploy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"2.0\",\n  \"method\": \"deploy\",\n  \"params\": {\n    \"type\": 1,\n    \"chaincodeID\":{\n        \"name\": \"eWallet\"\n    },\n    \"CtorMsg\": {\n        \"args\": [\"\"]\n    }\n  },\n  \"id\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:7050/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7050",
+					"path": [
+						"chaincode"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "put",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"2.0\",\n  \"method\": \"invoke\",\n  \"params\": {\n    \"type\": 4,\n    \"chaincodeID\":{\n        \"name\": \"eWallet\"\n    },\n    \"CtorMsg\": {\n        \"args\": [\"put\",\"zh-2233\", \"{\\\"date\\\":\\\"2017-10-01T14:38:12\\\", \\\"amount\\\":\\\"20.0\\\", \\\"type\\\":\\\"FUEL\\\"}\"]\n    }\n  },\n  \"id\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:7050/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7050",
+					"path": [
+						"chaincode"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"jsonrpc\": \"2.0\",\n  \"method\": \"query\",\n  \"params\": {\n    \"type\": 1,\n    \"chaincodeID\":{\n        \"name\": \"eWallet\"\n    },\n    \"CtorMsg\": {\n        \"args\": [\"query\",\"zh-1234\"]\n    }\n  },\n  \"id\": 2\n}"
+				},
+				"url": {
+					"raw": "http://localhost:7050/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7050",
+					"path": [
+						"chaincode"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}
