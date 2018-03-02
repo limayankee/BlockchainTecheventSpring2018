@@ -1,0 +1,76 @@
+= Blockchain: Ski Day Calculator
+
+== Use Case
+
+Track the effective usage of lifts on a ski day based on NFC- or Card-IDs. This especially should
+also cover cost caclulations across multiple payment parties or lift owners. Effective usage
+is trusted because data is collected by multiple peers based on two smart contracts:
+
+- Billings done and payments
+- User and Ride
+
+
+== Input Data
+
+=== Billings and Payments
+
+- Billing done for an amount of rides
+- Payments received for an amount of rides
+
+Data:
+
+- Receiver
+- Rides
+- Price
+
+Operations:
+
+- Create Bill
+- Receive Payment
+(- Forward Payment)
+
+For subcontractors additional smart contracts may be useful.
+
+=== User and Rides
+
+Data:
+
+- TicketID
+- Lift-ID (assuming the ID is unique)
+- Timestamp
+
+Operations:
+
+- Store
+
+
+== Interfaces
+
+=== End User UI
+
+Mobile application that allows to register a phone or NFC-Card with a user:
+
+- User Person Data, such as Name, Adress etc.
+- NFC-ID/Card-ID
+- Credit Card Information for Billing
+- Report of Services used, billed and payed
+
+The application sends usage data collected to the usage smart contract.
+
+
+=== Lift Device
+
+Application that communicates with the mobile phone/card and collects/sends usage data to the
+_User and Ride_ blockchain. The device optionally can check for authorization as well.
+
+The lift collects usage data as well and temporarely synchronizes as well to prevent
+manipulation.
+
+
+=== Billing System
+
+System that checks end of day for unbilled services and creates according bills.
+The amounts are collected automatically and payments forwarded to the lift
+stakeholders.
+
+
