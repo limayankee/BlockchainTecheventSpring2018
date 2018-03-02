@@ -37,7 +37,7 @@ task printClasspath {
 }
 
 archivesBaseName = "chaincode"
-mainClassName = "example.Example"
+mainClassName = "trivadis.blockchain.SkiAsYouGo"
 
 sourceSets {
     main {
