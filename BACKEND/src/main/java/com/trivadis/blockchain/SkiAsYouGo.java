@@ -82,7 +82,7 @@ public class SkiAsYouGo extends ChaincodeBase {
 			return "Hello world! from "+ stub.getState(args[0]);
 		}else{
 			log.debug("No value found for key '"+args[0]+"'");
-			return "Hello "+args[0]+"!";
+			return "No value found for key "+args[0]+"!";
 		}
 	}
 
