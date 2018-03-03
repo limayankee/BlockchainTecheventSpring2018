@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">The Best Blockchain App</a>
+  <a class="navbar-brand" href="#">Ski resort tracking app</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -11,49 +11,48 @@
 </nav>
 
 <div class="container">
-  <div class="row justify-content-around">
-    <div class="col-lg4">
+  <form #searchForm="ngForm" id="searchForm" role="form">
+  <div class="row align-items-center justify-content-around">
+    <div class="col-lg-4">
+      <img src="assets/logo.jpeg" />
+    </div>
+    <div class="col-lg-8">
 
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">User ID</span>
         </div>
-        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+        <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"
+               name="userId" id="userId" [(ngModel)]="userId">
       </div>
 
     </div>
-    <div class="col-lg4">
-
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
-        </div>
-        <input class="form-control" type="date">
-      </div>
 
 
-    </div>
-    <div class="col-lg4">
-      <a class="btn btn-md btn-primary text-white" role="button">Fetch</a>
-    </div>
   </div>
 
 
-  <table class="table">
+    <div class="row justify-content-end">
+      <div class="col-lg-2 ">
+        <a class="btn btn-md btn-primary text-white" role="button" (click)="fetchUserData()">Fetch</a>
+      </div>
+    </div>
+  </form>
+  <hr />
+  <table class="table" *ngIf="model">
     <thead class="thead-dark">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+
+      <th scope="col">Lift Id</th>
+      <th scope="col">Event Date</th>
+
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let entry of fetchApi | async">
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <tr *ngFor="let e of model?.eventList">
+      <td>{{e.liftId}}</td>
+      <td>{{e.eventDate | date: 'dd.MM.yyyy - hh:mm:ss'}}</td>
+
     </tr>
     </tbody>
   </table>

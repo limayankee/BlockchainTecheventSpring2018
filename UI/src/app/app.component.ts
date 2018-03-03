@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {AppService} from "./app.service";
+import {AppService} from './app.service';
+import {UserLiftEvent} from './user-lift-event';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,24 @@ import {AppService} from "./app.service";
 })
 export class AppComponent {
 
-  public fetchApi;
+
+  model: UserLiftEvent;
+  userId: string;
+
 
   constructor(private service: AppService) {
-    this.fetchApi = service.fetchApi();
+
   }
+
+
+  fetchUserData(): void {
+    this.service.getUserData(this.userId).subscribe(resp => {
+
+
+      this.model = JSON.parse(resp.result.message) as UserLiftEvent;
+
+    });
+  }
+
 
 }
