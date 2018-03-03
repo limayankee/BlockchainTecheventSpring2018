@@ -10,6 +10,9 @@ import org.hyperledger.java.shim.ChaincodeStub;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 
 /**
  * <h1>"Hello world" Chaincode</h1>
@@ -59,45 +62,36 @@ public class SkiAsYouGo extends ChaincodeBase {
 	@Override
 	public String run(ChaincodeStub stub, String function, String[] args) {
 		log.info("In run, function:"+function);
+
+
 		switch (function) {
-		case "put":
-			String userId = args[0];
-			String jsonEvent = args[1];
-			UserLiftEvents liftEvents;
+			case "put":
+				String userId = args[0];
+				String jsonEvent = args[1];
+				UserLiftEvents liftEvents;
 
-			log.debug("userId="+userId);
-			log.debug("jsonEvent="+jsonEvent);
+				log.debug("userId=" + userId);
+				log.debug("jsonEvent=" + jsonEvent);
 
-			try {
-				LiftEvent event = mapper.readValue(jsonEvent, LiftEvent.class);
-				if (stub.getState(userId)!=null&&!stub.getState(userId).isEmpty()){
-					liftEvents =  mapper.readValue(stub.getState(userId), UserLiftEvents.class);
-					liftEvents.addEvent(event);
+				try {
+					LiftEvent event = mapper.readValue(jsonEvent, LiftEvent.class);
+					if (stub.getState(userId) != null && !stub.getState(userId).isEmpty()) {
+						liftEvents = mapper.readValue(stub.getState(userId), UserLiftEvents.class);
+						liftEvents.addEvent(event);
 
+					} else {
+						liftEvents = new UserLiftEvents(userId);
+						liftEvents.addEvent(event);
+					}
+
+					stub.putState(userId, mapper.writeValueAsString(liftEvents));
+				} catch (Exception e) {
+					log.error(e);
+					return null;
 				}
-				else {
-					liftEvents = new UserLiftEvents(userId);
-					liftEvents.addEvent(event);
-				}
 
-				stub.putState(userId,mapper.writeValueAsString(liftEvents));
-			}
-			catch (Exception e) {
-				log.error(e);
-				return null;
-			}
-
-			break;
-		case "del":
-			for (String arg : args)
-				stub.delState(arg);
-			break;
-		case "hello":
-			System.out.println("hello invoked");
-			log.info("hello invoked");
-			break;
+				break;
 		}
-		log.error("No matching case for function:"+function);
 		return null;
 	}
 
@@ -108,7 +102,7 @@ public class SkiAsYouGo extends ChaincodeBase {
 		log.debug("query:"+args[0]+"="+stub.getState(args[0]));
 		if (stub.getState(args[0])!=null&&!stub.getState(args[0]).isEmpty()){
 			log.trace("returning: Hello world! from "+ stub.getState(args[0]));
-			return "Hello world! from "+ stub.getState(args[0]);
+			return stub.getState(args[0]);
 		}else{
 			log.debug("No value found for key '"+args[0]+"'");
 			return "No value found for key "+args[0]+"!";

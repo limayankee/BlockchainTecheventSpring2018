@@ -11,6 +11,8 @@ public class UserLiftEvents implements Serializable {
 
     private List<LiftEvent> eventList;
 
+    public UserLiftEvents() {
+    }
 
     public UserLiftEvents(String userId) {
         this.userId = userId;
