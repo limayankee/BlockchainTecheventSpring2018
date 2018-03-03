@@ -2,6 +2,9 @@
 
 package com.trivadis.blockchain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.trivadis.blockchain.model.LiftEvent;
+import com.trivadis.blockchain.model.UserLiftEvents;
 import org.hyperledger.java.shim.ChaincodeBase;
 import org.hyperledger.java.shim.ChaincodeStub;
 import org.apache.commons.logging.Log;
@@ -51,13 +54,39 @@ hence no channel call and only effect is line in stdout<br><br>
 public class SkiAsYouGo extends ChaincodeBase {
 	 private static Log log = LogFactory.getLog(SkiAsYouGo.class);
 
+	ObjectMapper mapper = new ObjectMapper();
+
 	@Override
 	public String run(ChaincodeStub stub, String function, String[] args) {
 		log.info("In run, function:"+function);
 		switch (function) {
 		case "put":
-			for (int i = 0; i < args.length; i += 2)
-				stub.putState(args[i], args[i + 1]);
+			String userId = args[0];
+			String jsonEvent = args[1];
+			UserLiftEvents liftEvents;
+
+			log.debug("userId="+userId);
+			log.debug("jsonEvent="+jsonEvent);
+
+			try {
+				LiftEvent event = mapper.readValue(jsonEvent, LiftEvent.class);
+				if (stub.getState(userId)!=null&&!stub.getState(userId).isEmpty()){
+					liftEvents =  mapper.readValue(stub.getState(userId), UserLiftEvents.class);
+					liftEvents.addEvent(event);
+
+				}
+				else {
+					liftEvents = new UserLiftEvents(userId);
+					liftEvents.addEvent(event);
+				}
+
+				stub.putState(userId,mapper.writeValueAsString(liftEvents));
+			}
+			catch (Exception e) {
+				log.error(e);
+				return null;
+			}
+
 			break;
 		case "del":
 			for (String arg : args)

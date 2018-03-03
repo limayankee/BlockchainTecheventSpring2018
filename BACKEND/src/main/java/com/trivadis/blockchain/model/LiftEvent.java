@@ -16,6 +16,11 @@ public class LiftEvent  implements Serializable{
     public LiftEvent() {
     }
 
+    public LiftEvent(String jsonData) {
+
+
+    }
+
     public LiftEvent(Long userId, Long liftId, Date eventDate) {
         this.userId = userId;
         this.liftId = liftId;
